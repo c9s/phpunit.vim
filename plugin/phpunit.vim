@@ -1,13 +1,15 @@
-highlight default PHPUnitFail guibg=Red ctermbg=Red guifg=White ctermfg=White
-highlight default PHPUnitOK guibg=Green ctermbg=Green guifg=Black ctermfg=Black
-highlight default PHPUnitAssertFail guifg=LightRed ctermfg=LightRed
+
+
+highlight PHPUnitFail guibg=Red ctermbg=Red guifg=White ctermfg=White
+highlight PHPUnitOK guibg=Green ctermbg=Green guifg=Black ctermfg=Black
+highlight PHPUnitAssertFail guifg=LightRed ctermfg=LightRed
 
 " root of unit tests
 if !exists('g:phpunit_testroot')
   let g:phpunit_testroot = 'tests'
 endif
 if !exists('g:php_bin')
-  let g:php_bin = 'php'
+  let g:php_bin = ''
 endif
 if !exists('g:phpunit_bin')
   let g:phpunit_bin = 'phpunit'
@@ -27,9 +29,12 @@ let g:PHPUnit = {}
 let g:PHPUnit["phpunit_options"] = ['--tap', '--stop-on-failure']
 
 fun! g:PHPUnit.buildBaseCommand()
-  let cmd = [g:php_bin, g:phpunit_bin]
-  let cmd = cmd + g:PHPUnit["phpunit_options"]
-  return cmd
+  let cmd = []
+  if g:php_bin != ""
+    call add(cmd, g:php_bin)
+  endif
+  call add(cmd, g:phpunit_bin)
+  return cmd + g:PHPUnit["phpunit_options"]
 endfun
 
 fun! g:PHPUnit.Run(cmd, title)
