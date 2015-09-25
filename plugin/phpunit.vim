@@ -54,7 +54,7 @@ fun! g:PHPUnit.OpenBuffer(content)
       execute phpunit_win . "wincmd w"
     else
       " split current buffer, with phpunit_buffer
-      execute "vertical sb ".g:phpunit_buffer
+      execute "rightbelow vertical sb ".g:phpunit_buffer
     endif
     " well, phpunit_buffer is opened, clear content
     setlocal modifiable
