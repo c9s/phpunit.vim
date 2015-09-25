@@ -84,3 +84,6 @@ endfun
 command! -nargs=0 PHPUnitRunAll :call g:PHPUnit.RunAll()
 command! -nargs=0 PHPUnitRunCurrentFile :call g:PHPUnit.RunCurrentFile()
 command! -nargs=1 PHPUnitRunFilter :call g:PHPUnit.RunTestCase(<f-args>)
+
+nnoremap <Leader>ta :PHPUnitRunAll<CR>
+nnoremap <Leader>tf :PHPUnitRunCurrentFile<CR>
