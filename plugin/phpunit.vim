@@ -6,6 +6,12 @@ highlight default PHPUnitAssertFail guifg=LightRed ctermfg=LightRed
 if !exists('g:phpunit_testroot')
   let g:phpunit_testroot = 'tests'
 endif
+if !exists('g:php_bin')
+  let g:php_bin = 'php'
+endif
+if !exists('g:phpunit_bin')
+  let g:phpunit_bin = 'phpunit'
+endif
 
 " you can set there subset of tests if you do not want to run
 " full set
@@ -18,12 +24,10 @@ if !exists('g:phpunit_srcroot')
 endif
 
 let g:PHPUnit = {}
-let g:PHPUnit["php"] = '/Users/c9s/.phpbrew/php/php-5.6.10/bin/php'
-let g:PHPUnit["phpunit"] = '/Users/c9s/bin/phpunit'
 let g:PHPUnit["phpunit_options"] = ['--tap', '--stop-on-failure']
 
 fun! g:PHPUnit.buildBaseCommand()
-  let cmd = [g:PHPUnit["php"], g:PHPUnit["phpunit"]]
+  let cmd = [g:php_bin, g:phpunit_bin]
   let cmd = cmd + g:PHPUnit["phpunit_options"]
   return cmd
 endfun
