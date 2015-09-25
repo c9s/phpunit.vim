@@ -2,6 +2,21 @@ highlight default PHPUnitFail guibg=Red ctermbg=Red guifg=White ctermfg=White
 highlight default PHPUnitOK guibg=Green ctermbg=Green guifg=Black ctermfg=Black
 highlight default PHPUnitAssertFail guifg=LightRed ctermfg=LightRed
 
+" root of unit tests
+if !exists('g:phpunit_testroot')
+  let g:phpunit_testroot = 'tests'
+endif
+
+" you can set there subset of tests if you do not want to run
+" full set
+if !exists('g:phpunit_tests')
+  let g:phpunit_tests = g:phpunit_testroot
+endif
+
+if !exists('g:phpunit_srcroot')
+  let g:phpunit_srcroot = 'src'
+endif
+
 let g:PHPUnit = {}
 let g:PHPUnit["php"] = '/Users/c9s/.phpbrew/php/php-5.6.10/bin/php'
 let g:PHPUnit["phpunit"] = '/Users/c9s/bin/phpunit'
@@ -81,6 +96,42 @@ fun! g:PHPUnit.RunTestCase(filter)
   let cmd = cmd + ["--filter", a:filter , bufname("%")]
   silent call g:PHPUnit.Run(cmd, bufname("%") . ":" . a:filter) 
 endfun
+
+fun! g:PHPUnit.SwitchFile()
+  let f = expand('%')
+  let cmd = ''
+  let is_test = expand('%:t') =~ "Test\."
+
+  if is_test
+    " replace phpunit_testroot with libroot
+    let f = substitute(f,'^'.g:phpunit_testroot.'/',g:phpunit_srcroot,'')
+
+    " remove 'Test.' from filename
+    let f = substitute(f,'Test\.','.','')
+    let cmd = 'to '
+  else
+    let f = expand('%:r')
+    let f = substitute(f,'^'.g:phpunit_srcroot, g:phpunit_testroot, '')
+    let f = f . 'Test.php'
+    let cmd = 'bo '
+  endif
+  " exec 'tabe ' . f 
+
+  " is there window with complent file open?
+  let win = bufwinnr(f)
+  if win > 0
+    execute win . "wincmd w"
+  else
+    execute cmd . "vsplit " . f
+    let dir = expand('%:h')
+    if ! isdirectory(dir) 
+      cal mkdir(dir,'p')
+    endif
+  endif
+endf
+
+
+
 command! -nargs=0 PHPUnitRunAll :call g:PHPUnit.RunAll()
 command! -nargs=0 PHPUnitRunCurrentFile :call g:PHPUnit.RunCurrentFile()
 command! -nargs=1 PHPUnitRunFilter :call g:PHPUnit.RunTestCase(<f-args>)
