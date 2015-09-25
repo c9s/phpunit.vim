@@ -82,7 +82,7 @@ fun! g:PHPUnit.OpenBuffer(content)
   call matchadd("PHPUnitAssertFail","^Failed asserting.*$")
   setlocal nomodifiable
 
-  wincmd w
+  wincmd p
 endfun
 
 
