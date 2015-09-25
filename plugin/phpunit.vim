@@ -68,6 +68,7 @@ fun! g:PHPUnit.OpenBuffer(content)
   file PHPUnit
   " exec 'file Diff-' . file
   setlocal nobuflisted cursorline nonumber nowrap buftype=nofile filetype=phpunit modifiable bufhidden=hide
+  setlocal noswapfile
   silent put=a:content
   "efm=%E%\\d%\\+)\ %m,%CFailed%m,%Z%f:%l,%-G
   " FIXME: It is better use match(), or :syntax
