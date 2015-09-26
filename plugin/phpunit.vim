@@ -8,6 +8,10 @@ highlight PHPUnitAssertFail guifg=LightRed ctermfg=LightRed
 if !exists('g:phpunit_testroot')
   let g:phpunit_testroot = 'tests'
 endif
+if !exists('g:phpunit_srcroot')
+  let g:phpunit_srcroot = 'src'
+endif
+
 if !exists('g:php_bin')
   let g:php_bin = ''
 endif
@@ -21,9 +25,6 @@ if !exists('g:phpunit_tests')
   let g:phpunit_tests = g:phpunit_testroot
 endif
 
-if !exists('g:phpunit_srcroot')
-  let g:phpunit_srcroot = 'src'
-endif
 
 let g:PHPUnit = {}
 let g:PHPUnit["phpunit_options"] = ['--tap', '--stop-on-failure']
@@ -110,21 +111,21 @@ fun! g:PHPUnit.RunTestCase(filter)
 endfun
 
 fun! g:PHPUnit.SwitchFile()
-  let f = expand('%')
+  let file = expand('%')
   let cmd = ''
-  let is_test = expand('%:t') =~ "Test\."
+  let isTest = expand('%:t') =~ "Test\.php$"
 
-  if is_test
+  if isTest
     " replace phpunit_testroot with libroot
-    let f = substitute(f,'^'.g:phpunit_testroot.'/',g:phpunit_srcroot,'')
+    let file = substitute(file, '^' . g:phpunit_testroot . '/', g:phpunit_srcroot . '/', '')
 
     " remove 'Test.' from filename
-    let f = substitute(f,'Test\.','.','')
+    let file = substitute(file,'Test\.php$','.php','')
     let cmd = 'to '
   else
-    let f = expand('%:r')
-    let f = substitute(f,'^'.g:phpunit_srcroot, g:phpunit_testroot, '')
-    let f = f . 'Test.php'
+    let file = expand('%:r')
+    let file = substitute(file,'^'.g:phpunit_srcroot, g:phpunit_testroot, '')
+    let file = file . 'Test.php'
     let cmd = 'bo '
   endif
   " exec 'tabe ' . f 
