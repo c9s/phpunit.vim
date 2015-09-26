@@ -131,11 +131,11 @@ fun! g:PHPUnit.SwitchFile()
   " exec 'tabe ' . f 
 
   " is there window with complent file open?
-  let win = bufwinnr(f)
+  let win = bufwinnr(file)
   if win > 0
     execute win . "wincmd w"
   else
-    execute cmd . "vsplit " . f
+    execute cmd . "vsplit " . file
     let dir = expand('%:h')
     if ! isdirectory(dir) 
       cal mkdir(dir,'p')
@@ -143,11 +143,11 @@ fun! g:PHPUnit.SwitchFile()
   endif
 endf
 
-
-
 command! -nargs=0 PHPUnitRunAll :call g:PHPUnit.RunAll()
 command! -nargs=0 PHPUnitRunCurrentFile :call g:PHPUnit.RunCurrentFile()
 command! -nargs=1 PHPUnitRunFilter :call g:PHPUnit.RunTestCase(<f-args>)
+command! -nargs=0 PHPUnitSwitchFile :call g:PHPUnit.SwitchFile()
 
 nnoremap <Leader>ta :PHPUnitRunAll<CR>
 nnoremap <Leader>tf :PHPUnitRunCurrentFile<CR>
+nnoremap <Leader>ts :PHPUnitSwitchFile<CR>
