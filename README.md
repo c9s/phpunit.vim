@@ -9,6 +9,24 @@
 Plugin "c9s/phpunit.vim"
 ```
 
+## Configurations
+
+
+```vim
+" the directory that contains your phpunit test cases.
+let g:phpunit_testroot = 'tests'
+```
+
+```vim
+" the directory that contains source files
+let g:phpunit_srcroot = 'src'
+```
+
+```vim
+" the location of your phpunit file.
+let g:phpunit_bin = 'phpunit'
+```
+
 
 ## Key Mappings
 
