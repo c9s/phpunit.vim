@@ -15,8 +15,13 @@ endif
 if !exists('g:php_bin')
   let g:php_bin = ''
 endif
+
 if !exists('g:phpunit_bin')
   let g:phpunit_bin = 'phpunit'
+endif
+
+if !exists('g:phpunit_options')
+  let g:phpunit_options = ['--stop-on-failure', '--columns=50'] 
 endif
 
 " you can set there subset of tests if you do not want to run
@@ -27,7 +32,6 @@ endif
 
 
 let g:PHPUnit = {}
-let g:PHPUnit["phpunit_options"] = ['--tap', '--stop-on-failure']
 
 fun! g:PHPUnit.buildBaseCommand()
   let cmd = []
@@ -35,7 +39,8 @@ fun! g:PHPUnit.buildBaseCommand()
     call add(cmd, g:php_bin)
   endif
   call add(cmd, g:phpunit_bin)
-  return cmd + g:PHPUnit["phpunit_options"]
+  call add(cmd, join(g:phpunit_options, " "))
+  return cmd
 endfun
 
 fun! g:PHPUnit.Run(cmd, title)
@@ -96,6 +101,8 @@ endfun
 
 fun! g:PHPUnit.RunAll()
   let cmd = g:PHPUnit.buildBaseCommand()
+  let cmd = cmd + [expand(g:phpunit_testroot)]
+ 
   silent call g:PHPUnit.Run(cmd, "RunAll") 
 endfun
 

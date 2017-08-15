@@ -27,6 +27,10 @@ let g:phpunit_srcroot = 'src'
 let g:phpunit_bin = 'phpunit'
 ```
 
+```vim
+" php unit command line options
+let g:phpunit_options = ["--stop-on-failure"]
+```
 
 ## Key Mappings
 
