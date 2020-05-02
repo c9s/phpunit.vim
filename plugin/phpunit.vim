@@ -108,7 +108,10 @@ endfun
 
 fun! g:PHPUnit.RunCurrentFile()
   let cmd = g:PHPUnit.buildBaseCommand()
-  let cmd = cmd +  [bufname("%")]
+  let currentfile = bufname("%")
+  let currentfile = substitute(currentfile,".php","Test.php","")
+  let testfile = substitute(currentfile, g:phpunit_srcroot, g:phpunit_testroot, "")
+  let cmd = cmd + [testfile]
   silent call g:PHPUnit.Run(cmd, bufname("%")) 
 endfun
 fun! g:PHPUnit.RunTestCase(filter)
